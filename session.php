@@ -7,11 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cargo = $_POST['cargo'];
 
     // Verificar las credenciales en la base de datos
-    $sql = "SELECT id, cargo, ingreso FROM usuarios WHERE nombre_usuario = ? AND clave = ? AND cargo = ?";
+    $sql = "SELECT id, cargo, ingreso, nombre_usuario FROM usuarios WHERE nombre_usuario = ? AND clave = ? AND cargo = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssi", $username, $password, $cargo);
     $stmt->execute();
-    $stmt->bind_result($userId, $userCargo, $ingreso);
+    $stmt->bind_result($userId, $userCargo, $ingreso, $nombreUsuario);
 
     if ($stmt->fetch()) {
         // Verificar el valor de ingreso
@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
             $_SESSION['user_id'] = $userId;
             $_SESSION['user_cargo'] = $userCargo;
+            $_SESSION['user_name'] = $nombreUsuario;
 
             echo 0; // Enviar respuesta al cliente
         } else {
@@ -27,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
             $_SESSION['user_id'] = $userId;
             $_SESSION['user_cargo'] = $userCargo;
+            $_SESSION['user_name'] = $nombreUsuario;
 
             echo 1; // Enviar respuesta al cliente
         }
