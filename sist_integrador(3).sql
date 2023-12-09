@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-12-2023 a las 15:48:12
+-- Tiempo de generación: 09-12-2023 a las 03:54:18
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -35,6 +35,26 @@ CREATE TABLE `aulas` (
   `capacidad` int(11) NOT NULL,
   `Tipo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cargos`
+--
+
+CREATE TABLE `cargos` (
+  `id_cargo` int(11) NOT NULL,
+  `nombre_cargo` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `cargos`
+--
+
+INSERT INTO `cargos` (`id_cargo`, `nombre_cargo`) VALUES
+(2, 'Centro de Estudiante'),
+(1, 'Directivo'),
+(3, 'Soprte Tecnico');
 
 -- --------------------------------------------------------
 
@@ -77,19 +97,11 @@ CREATE TABLE `reparaciones` (
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nombre_usuario` varchar(255) NOT NULL,
-  `cargo` tinyint(1) NOT NULL,
+  `id_cargo` int(11) NOT NULL,
   `clave` varchar(250) NOT NULL,
-  `ingreso` tinyint(1) NOT NULL
+  `ingreso` tinyint(1) NOT NULL,
+  `nombre_cargo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nombre_usuario`, `cargo`, `clave`, `ingreso`) VALUES
-(1, 'cen', 0, '12345', 1),
-(2, 'director', 1, '54321', 1),
-(3, 'soporte', 2, '12345678', 1);
 
 --
 -- Índices para tablas volcadas
@@ -102,6 +114,13 @@ ALTER TABLE `aulas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `cargos`
+--
+ALTER TABLE `cargos`
+  ADD PRIMARY KEY (`id_cargo`),
+  ADD UNIQUE KEY `nombre_cargo` (`nombre_cargo`);
+
+--
 -- Indices de la tabla `informes`
 --
 ALTER TABLE `informes`
@@ -111,13 +130,16 @@ ALTER TABLE `informes`
 -- Indices de la tabla `reparaciones`
 --
 ALTER TABLE `reparaciones`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_aulas` (`id_aulas`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_cargo` (`id_cargo`),
+  ADD KEY `nombre_cargo` (`nombre_cargo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -128,6 +150,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `aulas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `cargos`
+--
+ALTER TABLE `cargos`
+  MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `informes`
@@ -146,6 +174,17 @@ ALTER TABLE `reparaciones`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_cargo`) REFERENCES `cargos` (`id_cargo`),
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`nombre_cargo`) REFERENCES `cargos` (`nombre_cargo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

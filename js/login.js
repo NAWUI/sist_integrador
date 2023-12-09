@@ -3,7 +3,6 @@ $(document).ready(function() {
         // Obtener los valores del formulario
         var usuario = $('#usuarioInput').val();
         var contrasena = $('#contrasenaInput').val();
-        var cargo = $('#cargoSelect').val();
 
         // Realizar la solicitud AJAX
         $.ajax({
@@ -12,7 +11,6 @@ $(document).ready(function() {
             data: {
                 usuario: usuario,
                 contrasena: contrasena,
-                cargo: cargo
             },
             success: function(response) {
                 console.log(response);

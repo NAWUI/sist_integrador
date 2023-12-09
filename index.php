@@ -42,6 +42,7 @@ session_start();
     .user-icon {
 
       color: #17a2b8;
+      text-align: center
       ;
       /* Color del ícono de usuario */
       padding: 5px;

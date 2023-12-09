@@ -4,12 +4,11 @@ include 'connection.php'; // Tu archivo de conexión a la base de datos
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['usuario'];
     $password = $_POST['contrasena'];
-    $cargo = $_POST['cargo'];
 
     // Verificar las credenciales en la base de datos
-    $sql = "SELECT id, cargo, ingreso, nombre_usuario FROM usuarios WHERE nombre_usuario = ? AND clave = ? AND cargo = ?";
+    $sql = "SELECT id, cargo, ingreso, nombre_usuario FROM usuarios WHERE nombre_usuario = ? AND clave = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", $username, $password, $cargo);
+    $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $stmt->bind_result($userId, $userCargo, $ingreso, $nombreUsuario);
 

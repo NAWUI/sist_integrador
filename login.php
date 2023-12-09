@@ -40,14 +40,7 @@
           <label for="contrasenaInput">Contraseña</label>
           <input type="password" class="form-control" id="contrasenaInput" placeholder="Ingrese su contraseña" required>
         </div>
-        <div class="form-group">
-        <label for="cargoSelect">Cargo</label>
-        <select class="form-control" id="cargoSelect" required>
-            <option value="0">Centro de Estudiantes</option>
-            <option value="1">Directivos</option>
-            <option value="2">Soporte Técnico</option>
-        </select>
-    </div>
+        
     <button type="button" class="btn btn-info btn-block" id="loginBtn">Iniciar Sesión</button>
       </form>
     </div>
